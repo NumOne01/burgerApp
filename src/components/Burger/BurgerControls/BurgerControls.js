@@ -13,6 +13,9 @@ const btns = [
 const BurgerControls = props => {
 	return (
 		<div className={classes.BuildControls}>
+			<p>
+				<b>{props.price.toFixed(2)}</b>
+			</p>
 			{btns.map(btn => (
 				<BurgerControl
 					label={btn.label}

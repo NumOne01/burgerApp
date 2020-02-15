@@ -17,20 +17,24 @@ export default class BurgerBuilder extends Component {
 			cheese: 0,
 			bacon: 0
 		},
-		totalPrice: 0
+		totalPrice: 2.0
 	}
 
 	onMoreClicked = type => {
 		const ingredients = { ...this.state.ingredients }
 		ingredients[type] += 1
-		this.setState({ ingredients })
+		let totalPrice = this.state.totalPrice
+		totalPrice += prices[type]
+		this.setState({ ingredients, totalPrice })
 	}
 
 	onLessClicked = type => {
 		const ingredients = { ...this.state.ingredients }
 		if (ingredients[type] <= 0) return
+		let totalPrice = this.state.totalPrice
+		totalPrice -= prices[type]
 		ingredients[type] -= 1
-		this.setState({ ingredients })
+		this.setState({ ingredients, totalPrice })
 	}
 
 	render() {
@@ -40,6 +44,7 @@ export default class BurgerBuilder extends Component {
 			<Fragment>
 				<Burger ingredients={this.state.ingredients} />
 				<BurgerControls
+					price={this.state.totalPrice}
 					disabledInfo={disabledInfo}
 					onMoreClicked={this.onMoreClicked}
 					onLessClicked={this.onLessClicked}
