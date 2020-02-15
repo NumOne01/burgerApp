@@ -12,6 +12,10 @@ const OrderSummary = props => {
 		<Fragment>
 			<p>Your OrderSummary :</p>
 			<ul>{ingredientsSummary}</ul>
+			<p>
+				<b>Total Price : </b>
+				{props.price.toFixed(2)} $
+			</p>
 			<Button type="Success" clicked={props.onContinue}>
 				Continue
 			</Button>
