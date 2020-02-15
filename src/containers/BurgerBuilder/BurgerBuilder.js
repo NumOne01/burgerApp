@@ -58,13 +58,24 @@ export default class BurgerBuilder extends Component {
 		this.setState({ purchasing: false })
 	}
 
+	purchasingContinue = () => {
+		alert("Contintue !")
+	}
+
 	render() {
 		const disabledInfo = { ...this.state.ingredients }
 		for (let key in disabledInfo) disabledInfo[key] = disabledInfo[key] <= 0
 		return (
 			<Fragment>
-				<Modal show={this.state.purchasing} closeModal={this.purchasingCanceled}>
-					<OrderSummary ingredients={this.state.ingredients} />
+				<Modal
+					show={this.state.purchasing}
+					closeModal={this.purchasingCanceled}
+				>
+					<OrderSummary
+						ingredients={this.state.ingredients}
+						onClose={this.purchasingCanceled}
+						onContinue={this.purchasingContinue}
+					/>
 				</Modal>
 				<Burger ingredients={this.state.ingredients} />
 				<BurgerControls
