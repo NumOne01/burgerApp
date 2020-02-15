@@ -17,7 +17,15 @@ export default class BurgerBuilder extends Component {
 			cheese: 0,
 			bacon: 0
 		},
-		totalPrice: 2.0
+		totalPrice: 0,
+		purchasable: false
+	}
+
+	updatePurchasableState = ingredients => {
+		const sum = Object.keys(ingredients)
+			.map(key => ingredients[key])
+			.reduce((sum, el) => sum + el, 0)
+		this.setState({ purchasable: sum > 0 })
 	}
 
 	onMoreClicked = type => {
@@ -26,6 +34,7 @@ export default class BurgerBuilder extends Component {
 		let totalPrice = this.state.totalPrice
 		totalPrice += prices[type]
 		this.setState({ ingredients, totalPrice })
+		this.updatePurchasableState(ingredients)
 	}
 
 	onLessClicked = type => {
@@ -35,6 +44,7 @@ export default class BurgerBuilder extends Component {
 		totalPrice -= prices[type]
 		ingredients[type] -= 1
 		this.setState({ ingredients, totalPrice })
+		this.updatePurchasableState(ingredients)
 	}
 
 	render() {
@@ -48,6 +58,7 @@ export default class BurgerBuilder extends Component {
 					disabledInfo={disabledInfo}
 					onMoreClicked={this.onMoreClicked}
 					onLessClicked={this.onLessClicked}
+					purchasable={this.state.purchasable}
 				/>
 			</Fragment>
 		)
