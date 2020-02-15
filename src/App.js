@@ -1,12 +1,11 @@
 import React from "react"
-import Layout from "./containers/Layout/Layout"
 import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder"
+import Layout from "./components/Layout/Layout"
 
 const App = () => {
 	return (
 		<div>
 			<Layout>
-				<p>Burger</p>
 				<BurgerBuilder />
 			</Layout>
 		</div>
