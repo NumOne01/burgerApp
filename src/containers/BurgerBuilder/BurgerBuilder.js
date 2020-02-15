@@ -54,12 +54,16 @@ export default class BurgerBuilder extends Component {
 		this.setState({ purchasing: true })
 	}
 
+	purchasingCanceled = () => {
+		this.setState({ purchasing: false })
+	}
+
 	render() {
 		const disabledInfo = { ...this.state.ingredients }
 		for (let key in disabledInfo) disabledInfo[key] = disabledInfo[key] <= 0
 		return (
 			<Fragment>
-				<Modal show={this.state.purchasing}>
+				<Modal show={this.state.purchasing} closeModal={this.purchasingCanceled}>
 					<OrderSummary ingredients={this.state.ingredients} />
 				</Modal>
 				<Burger ingredients={this.state.ingredients} />
