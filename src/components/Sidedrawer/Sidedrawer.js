@@ -8,7 +8,14 @@ const Sidedrawer = props => {
 	return (
 		<Fragment>
 			<Backdrop show={props.open} clicked={props.close} />
-			<div className={[classes.Sidedrawer, props.open ? classes.Open : classes.Close].join(" ")}>
+			<div
+				className={classes.Sidedrawer}
+				style={{
+					transform: props.open
+						? "translateX(0)"
+						: "translateX(-100vw)"
+				}}
+			>
 				<div className={classes.Logo}>
 					<Logo />
 				</div>
