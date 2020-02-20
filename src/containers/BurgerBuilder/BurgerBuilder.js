@@ -59,7 +59,16 @@ export default class BurgerBuilder extends Component {
 	}
 
 	purchasingContinue = () => {
-		alert("Contintue !")
+		const queryParams = []
+		const { ingredients } = this.state
+		for (let i in ingredients)
+			queryParams.push(
+				encodeURIComponent(i) + "=" + encodeURIComponent(ingredients[i])
+			)
+		this.props.history.push({
+			pathname: "/checkout",
+			search: "?" + queryParams.join("&")
+		})
 	}
 
 	render() {
