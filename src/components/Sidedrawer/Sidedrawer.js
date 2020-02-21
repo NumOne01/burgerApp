@@ -10,11 +10,14 @@ const Sidedrawer = props => {
 			<Backdrop show={props.open} clicked={props.close} />
 			<div
 				className={classes.Sidedrawer}
-				style={{
-					transform: props.open
-						? "translateX(0)"
-						: "translateX(-100vw)"
-				}}
+				style={
+					props.open
+						? {
+								transform: "translateX(0)",
+								display: "block"
+						  }
+						: { transform: "translateX(-100vw)", display: "none" }
+				}
 			>
 				<div className={classes.Logo}>
 					<Logo />

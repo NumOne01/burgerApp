@@ -13,6 +13,7 @@ export default class Checkout extends Component {
 		},
 		price: 0
 	}
+	
 	componentDidMount() {
 		const query = new URLSearchParams(this.props.location.search)
 		const ingredients = {}
@@ -23,9 +24,11 @@ export default class Checkout extends Component {
 		}
 		this.setState({ ingredients, price })
 	}
+
 	onContinue = () => {
 		this.props.history.replace(this.props.match.url + "/contact-data")
 	}
+
 	render() {
 		return (
 			<div>
