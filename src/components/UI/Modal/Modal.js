@@ -18,12 +18,10 @@ class Modal extends Component {
 					style={
 						this.props.show
 							? {
-									transform: "translateY(0)",
-									display: "block"
+									transform: "translateY(0)"
 							  }
 							: {
-									transform: "translateY(-100vh)",
-									display: "none"
+									transform: "translateY(-100vh)"
 							  }
 					}
 				>

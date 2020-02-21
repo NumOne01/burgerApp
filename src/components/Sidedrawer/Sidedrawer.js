@@ -13,10 +13,9 @@ const Sidedrawer = props => {
 				style={
 					props.open
 						? {
-								transform: "translateX(0)",
-								display: "block"
+								transform: "translateX(0)"
 						  }
-						: { transform: "translateX(-100vw)", display: "none" }
+						: { transform: "translateX(-100vw)" }
 				}
 			>
 				<div className={classes.Logo}>
