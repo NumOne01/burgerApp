@@ -3,8 +3,9 @@ import classes from "./ContactData.module.css"
 import Button from "../../../components/UI/Button/Button"
 import axios from "../../../axios-order"
 import Spinner from "../../../components/UI/Spinner/Spinner"
+import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler"
 
-export default class ContactData extends Component {
+class ContactData extends Component {
 	state = {
 		name: "",
 		email: "",
@@ -28,10 +29,9 @@ export default class ContactData extends Component {
 				this.props.history.push("/")
 			})
 			.catch(error => {
-				console.error(error)
 				this.setState({ loading: false })
+				console.log(error)
 			})
-		this.props.history.push("/")
 	}
 
 	render() {
@@ -56,3 +56,5 @@ export default class ContactData extends Component {
 		return <div className={classes.ContactData}>{form}</div>
 	}
 }
+
+export default withErrorHandler(ContactData, axios)
