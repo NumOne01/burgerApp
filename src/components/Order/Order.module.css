@@ -6,3 +6,11 @@
 	border: 1px solid #ccc;
 	box-sizing: border-box;
 }
+
+.Ingredient{
+	border: 1px solid lightgray;
+	padding: 8px;
+	box-sizing: border-box;
+	margin: 0 4px;
+	border-radius: 8px;
+}

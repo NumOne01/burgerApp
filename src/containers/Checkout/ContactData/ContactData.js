@@ -7,21 +7,27 @@ import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler"
 
 class ContactData extends Component {
 	state = {
-		name: "",
-		email: "",
+		name: "s",
+		email: "ds",
 		address: {
-			street: "",
-			postal: ""
+			street: "fajk",
+			postal: "fads"
 		},
 		loading: false
 	}
 
 	onSubmit = () => {
+		const { name, email, address } = this.state
+		const { ingredients, price } = this.props
 		this.setState({ loading: true })
 		const order = {
-			ingredients: this.props.ingredients,
-			price: this.props.price
+			ingredients,
+			price,
+			name,
+			email,
+			address
 		}
+		console.log(order)
 		axios
 			.post("/orders.json", order)
 			.then(() => {
