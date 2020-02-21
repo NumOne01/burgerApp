@@ -4,6 +4,7 @@ import classes from "./Toolbar.module.css"
 import Logo from "../../Logo/Logo"
 import NavigationItems from "../NavigationItems/NavigationItems"
 import HumbergurButton from "../../UI/HumbergurButton/HumbergurButton"
+import { Link } from "react-router-dom"
 
 const Toolbar = props => {
 	return (
@@ -12,7 +13,9 @@ const Toolbar = props => {
 				<HumbergurButton clicked={props.showDrawer} />
 			</div>
 			<div className={classes.Logo}>
-				<Logo />
+				<Link to="/">
+					<Logo />
+				</Link>
 			</div>
 			<nav>
 				<NavigationItems />
