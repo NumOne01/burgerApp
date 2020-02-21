@@ -22,8 +22,11 @@ export default class ContactData extends Component {
 			price: this.props.price
 		}
 		axios
-			.post("/orders.json", order)
-			.then(() => this.setState({ loading: false }))
+			.post("/orders", order)
+			.then(() => {
+				this.setState({ loading: false })
+				this.props.history.push("/")
+			})
 			.catch(error => {
 				console.error(error)
 				this.setState({ loading: false })
