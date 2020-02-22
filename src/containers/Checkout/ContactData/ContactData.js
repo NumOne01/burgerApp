@@ -19,7 +19,8 @@ class ContactData extends Component {
 				valid: false,
 				validation: {
 					required: true
-				}
+				},
+				touched: false
 			},
 			email: {
 				elementType: "input",
@@ -31,7 +32,8 @@ class ContactData extends Component {
 				valid: false,
 				validation: {
 					required: true
-				}
+				},
+				touched: false
 			},
 			street: {
 				elementType: "input",
@@ -43,7 +45,8 @@ class ContactData extends Component {
 				valid: false,
 				validation: {
 					required: true
-				}
+				},
+				touched: false
 			},
 			postal: {
 				elementType: "input",
@@ -57,7 +60,8 @@ class ContactData extends Component {
 					required: true,
 					minLength: 5,
 					maxLength: 5
-				}
+				},
+				touched: false
 			},
 			deliveryMethod: {
 				elementType: "select",
@@ -75,10 +79,13 @@ class ContactData extends Component {
 
 	checkValidity(value, rules) {
 		let isValid = true
-
-		if (rules.required) isValid = value.trim() !== "" && isValid
-		if (rules.minLength) isValid = value.trim().length >= rules.minLength && isValid
-		if (rules.maxLength) isValid = value.trim().length <= rules.maxLength && isValid
+		if (rules) {
+			if (rules.required) isValid = value.trim() !== "" && isValid
+			if (rules.minLength)
+				isValid = value.trim().length >= rules.minLength && isValid
+			if (rules.maxLength)
+				isValid = value.trim().length <= rules.maxLength && isValid
+		}
 
 		return isValid
 	}
@@ -91,6 +98,7 @@ class ContactData extends Component {
 			updatedElement.value,
 			updatedElement.validation
 		)
+		updatedElement.touched = true
 		updatedForm[idetifire] = updatedElement
 		this.setState({ orderForm: updatedForm })
 	}
@@ -120,7 +128,6 @@ class ContactData extends Component {
 
 	render() {
 		const { orderForm, loading } = this.state
-		console.log(orderForm)
 		const inputElements = []
 		for (let key in orderForm)
 			inputElements.push({ id: key, config: orderForm[key] })
@@ -137,6 +144,9 @@ class ContactData extends Component {
 						changed={event => {
 							this.hadndleInputChange(event, inputElement.id)
 						}}
+						invalid={!inputElement.config.valid}
+						shouldValidate={inputElement.config.validation}
+						touched={inputElement.config.touched}
 					/>
 				))}
 				<Button type="Success">Order</Button>
