@@ -71,21 +71,23 @@ class ContactData extends Component {
 						{ value: "cheap", name: "Cheap" }
 					]
 				},
-				value: ""
+				value: "fastest",
+				validation: {},
+				valid: true
 			}
 		},
-		loading: false
+		loading: false,
+		formIsValid: false
 	}
 
 	checkValidity(value, rules) {
 		let isValid = true
-		if (rules) {
-			if (rules.required) isValid = value.trim() !== "" && isValid
-			if (rules.minLength)
-				isValid = value.trim().length >= rules.minLength && isValid
-			if (rules.maxLength)
-				isValid = value.trim().length <= rules.maxLength && isValid
-		}
+
+		if (rules.required) isValid = value.trim() !== "" && isValid
+		if (rules.minLength)
+			isValid = value.trim().length >= rules.minLength && isValid
+		if (rules.maxLength)
+			isValid = value.trim().length <= rules.maxLength && isValid
 
 		return isValid
 	}
@@ -100,7 +102,10 @@ class ContactData extends Component {
 		)
 		updatedElement.touched = true
 		updatedForm[idetifire] = updatedElement
-		this.setState({ orderForm: updatedForm })
+		let formIsValid = true
+		for (let key in updatedForm)
+			formIsValid = updatedForm[key].valid && formIsValid
+		this.setState({ orderForm: updatedForm, formIsValid })
 	}
 
 	onSubmit = () => {
@@ -127,7 +132,7 @@ class ContactData extends Component {
 	}
 
 	render() {
-		const { orderForm, loading } = this.state
+		const { orderForm, loading, formIsValid } = this.state
 		const inputElements = []
 		for (let key in orderForm)
 			inputElements.push({ id: key, config: orderForm[key] })
@@ -149,7 +154,9 @@ class ContactData extends Component {
 						touched={inputElement.config.touched}
 					/>
 				))}
-				<Button type="Success">Order</Button>
+				<Button disabled={!formIsValid} type="Success">
+					Order
+				</Button>
 			</form>
 		)
 		return <div className={classes.ContactData}>{form}</div>
