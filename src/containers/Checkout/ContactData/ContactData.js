@@ -15,7 +15,11 @@ class ContactData extends Component {
 					type: "text",
 					placeholder: "name"
 				},
-				value: ""
+				value: "",
+				valid: false,
+				validation: {
+					required: true
+				}
 			},
 			email: {
 				elementType: "input",
@@ -23,7 +27,11 @@ class ContactData extends Component {
 					type: "email",
 					placeholder: "email"
 				},
-				value: ""
+				value: "",
+				valid: false,
+				validation: {
+					required: true
+				}
 			},
 			street: {
 				elementType: "input",
@@ -31,7 +39,11 @@ class ContactData extends Component {
 					type: "text",
 					placeholder: "Street"
 				},
-				value: ""
+				value: "",
+				valid: false,
+				validation: {
+					required: true
+				}
 			},
 			postal: {
 				elementType: "input",
@@ -39,7 +51,13 @@ class ContactData extends Component {
 					type: "text",
 					placeholder: "Zip Code"
 				},
-				value: ""
+				value: "",
+				valid: false,
+				validation: {
+					required: true,
+					minLength: 5,
+					maxLength: 5
+				}
 			},
 			deliveryMethod: {
 				elementType: "select",
@@ -55,10 +73,24 @@ class ContactData extends Component {
 		loading: false
 	}
 
+	checkValidity(value, rules) {
+		let isValid = true
+
+		if (rules.required) isValid = value.trim() !== "" && isValid
+		if (rules.minLength) isValid = value.trim().length >= rules.minLength && isValid
+		if (rules.maxLength) isValid = value.trim().length <= rules.maxLength && isValid
+
+		return isValid
+	}
+
 	hadndleInputChange = (event, idetifire) => {
 		const updatedForm = { ...this.state.orderForm }
 		const updatedElement = { ...updatedForm[idetifire] }
 		updatedElement.value = event.target.value
+		updatedElement.valid = this.checkValidity(
+			updatedElement.value,
+			updatedElement.validation
+		)
 		updatedForm[idetifire] = updatedElement
 		this.setState({ orderForm: updatedForm })
 	}
@@ -88,6 +120,7 @@ class ContactData extends Component {
 
 	render() {
 		const { orderForm, loading } = this.state
+		console.log(orderForm)
 		const inputElements = []
 		for (let key in orderForm)
 			inputElements.push({ id: key, config: orderForm[key] })
