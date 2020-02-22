@@ -4,16 +4,63 @@ import Button from "../../../components/UI/Button/Button"
 import axios from "../../../axios-order"
 import Spinner from "../../../components/UI/Spinner/Spinner"
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler"
+import Input from "../../../components/UI/Input/Input"
 
 class ContactData extends Component {
 	state = {
-		name: "s",
-		email: "ds",
-		address: {
-			street: "fajk",
-			postal: "fads"
+		orderForm: {
+			name: {
+				elementType: "input",
+				elementConfig: {
+					type: "text",
+					placeholder: "name"
+				},
+				value: "shit"
+			},
+			email: {
+				elementType: "input",
+				elementConfig: {
+					type: "email",
+					placeholder: "email"
+				},
+				value: ""
+			},
+			street: {
+				elementType: "input",
+				elementConfig: {
+					type: "text",
+					placeholder: "Street"
+				},
+				value: ""
+			},
+			postal: {
+				elementType: "input",
+				elementConfig: {
+					type: "text",
+					placeholder: "Zip Code"
+				},
+				value: ""
+			},
+			deliveryMethod: {
+				elementType: "select",
+				elementConfig: {
+					options: [
+						{ value: "fast", name: "Fast" },
+						{ value: "cheap", name: "Cheap" }
+					]
+				},
+				value: ""
+			}
 		},
 		loading: false
+	}
+
+	hadndleInputChange = (event, idetifire) => {
+		const updatedForm = { ...this.state.orderForm }
+		const updatedElement = { ...updatedForm[idetifire] }
+		updatedElement.value = event.target.value
+		updatedForm[idetifire] = updatedElement
+		this.setState({ orderForm: updatedForm })
 	}
 
 	onSubmit = () => {
@@ -27,7 +74,6 @@ class ContactData extends Component {
 			email,
 			address
 		}
-		console.log(order)
 		axios
 			.post("/orders.json", order)
 			.then(() => {
@@ -41,19 +87,26 @@ class ContactData extends Component {
 	}
 
 	render() {
-		let form = this.state.loading ? (
+		const { orderForm, loading } = this.state
+		const inputElements = []
+		for (let key in orderForm)
+			inputElements.push({ id: key, config: orderForm[key] })
+		let form = loading ? (
 			<Spinner />
 		) : (
 			<Fragment>
 				<h1>Please fill the form</h1>
-				<input type="text" placeholder="Name" name="name" />
-				<input type="email" placeholder="Your Email" name="email" />
-				<input
-					type="text"
-					placeholder="Postal Code"
-					name="postalcode"
-				/>
-				<input type="text" placeholder="Street" name="street" />
+				{inputElements.map(inputElement => (
+					<Input
+						key={inputElement.id}
+						elementType={inputElement.config.elementType}
+						elementConfig={inputElement.config.elementConfig}
+						value={inputElement.config.value}
+						changed={event => {
+							this.hadndleInputChange(event, inputElement.id)
+						}}
+					/>
+				))}
 				<Button type="Success" clicked={this.onSubmit}>
 					Order
 				</Button>
