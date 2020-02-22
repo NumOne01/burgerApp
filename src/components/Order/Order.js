@@ -12,7 +12,9 @@ const Order = props => {
 	))
 	return (
 		<div className={classes.Order}>
-			<div>ingredient : {ingredientsOutput}</div>
+			<div className={classes.IngredientContainer}>
+				ingredient : {ingredientsOutput}
+			</div>
 			<p>total price : {props.price}</p>
 		</div>
 	)

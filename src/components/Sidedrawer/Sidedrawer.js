@@ -22,7 +22,7 @@ const Sidedrawer = props => {
 					<Logo />
 				</div>
 				<nav>
-					<NavigationItems />
+					<NavigationItems clicked={props.close} />
 				</nav>
 			</div>
 		</Fragment>

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react"
+import React, { Component } from "react"
 import classes from "./ContactData.module.css"
 import Button from "../../../components/UI/Button/Button"
 import axios from "../../../axios-order"
@@ -15,7 +15,7 @@ class ContactData extends Component {
 					type: "text",
 					placeholder: "name"
 				},
-				value: "shit"
+				value: ""
 			},
 			email: {
 				elementType: "input",
@@ -64,15 +64,15 @@ class ContactData extends Component {
 	}
 
 	onSubmit = () => {
-		const { name, email, address } = this.state
+		const { orderForm } = this.state
 		const { ingredients, price } = this.props
 		this.setState({ loading: true })
+		const orderData = {}
+		for (let key in orderForm) orderData[key] = orderForm[key].value
 		const order = {
 			ingredients,
 			price,
-			name,
-			email,
-			address
+			orderData
 		}
 		axios
 			.post("/orders.json", order)
@@ -91,11 +91,10 @@ class ContactData extends Component {
 		const inputElements = []
 		for (let key in orderForm)
 			inputElements.push({ id: key, config: orderForm[key] })
-		let form = loading ? (
+		const form = loading ? (
 			<Spinner />
 		) : (
-			<Fragment>
-				<h1>Please fill the form</h1>
+			<form onSubmit={this.onSubmit}>
 				{inputElements.map(inputElement => (
 					<Input
 						key={inputElement.id}
@@ -107,10 +106,8 @@ class ContactData extends Component {
 						}}
 					/>
 				))}
-				<Button type="Success" clicked={this.onSubmit}>
-					Order
-				</Button>
-			</Fragment>
+				<Button type="Success">Order</Button>
+			</form>
 		)
 		return <div className={classes.ContactData}>{form}</div>
 	}
