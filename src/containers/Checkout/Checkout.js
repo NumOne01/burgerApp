@@ -3,7 +3,6 @@ import { connect } from "react-redux"
 import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary"
 import { Route, Redirect } from "react-router-dom"
 import ContactData from "./ContactData/ContactData"
-import { purchaseInit } from "../../store/actions"
 
 class Checkout extends Component {
 	onContinue = () => {
