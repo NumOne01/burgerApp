@@ -2,7 +2,10 @@ import {
 	PURCHASE_BURGER_FAILED,
 	PURCHASE_BURGER_SUCCESS,
 	PURCHASE_BURGER_START,
-	PURCHASE_INIT
+	PURCHASE_INIT,
+	FETCH_ORDERS_FAILED,
+	FETCH_ORDERS_SUCCESS,
+	FETCH_ORDERS_START
 } from "../actions/actionTypes"
 
 const initialState = {
@@ -31,6 +34,12 @@ const order = (state = initialState, action) => {
 				loading: false,
 				purchased: true
 			}
+		case FETCH_ORDERS_START:
+			return { ...state, loading: true }
+		case FETCH_ORDERS_FAILED:
+			return { ...state, loading: false, error: action.payload }
+		case FETCH_ORDERS_SUCCESS:
+			return { ...state, loading: false, orders: action.payload }
 		default:
 			return state
 	}

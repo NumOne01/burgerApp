@@ -2,7 +2,10 @@ import {
 	PURCHASE_BURGER_FAILED,
 	PURCHASE_BURGER_SUCCESS,
 	PURCHASE_BURGER_START,
-	PURCHASE_INIT
+	PURCHASE_INIT,
+	FETCH_ORDERS_FAILED,
+	FETCH_ORDERS_START,
+	FETCH_ORDERS_SUCCESS
 } from "./actionTypes"
 import axios from "../../axios-order"
 
@@ -37,5 +40,22 @@ export const purchaseBurger = order => {
 export const purchaseInit = () => {
 	return {
 		type: PURCHASE_INIT
+	}
+}
+
+export const fetchOrders = () => {
+	return dispatch => {
+		dispatch({ type: FETCH_ORDERS_START })
+		axios
+			.get("/orders.json")
+			.then(response => {
+				const orders = []
+				for (let key in response.data)
+					orders.push({ ...response.data[key], id: key })
+				dispatch({ type: FETCH_ORDERS_SUCCESS, payload: orders })
+			})
+			.catch(error =>
+				dispatch({ type: FETCH_ORDERS_FAILED, payload: error })
+			)
 	}
 }
