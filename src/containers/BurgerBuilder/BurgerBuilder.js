@@ -7,8 +7,9 @@ import { connect } from "react-redux"
 import {
 	addIngredient,
 	removeIngredient,
-	initBurger
-} from "../../store/actions/index"
+	initBurger,
+	purchaseInit
+} from "../../store/actions"
 import Spinner from "../../components/UI/Spinner/Spinner"
 import withErrorHandler from "../hoc/withErrorHandler/withErrorHandler"
 import axios from "../../axios-order"
@@ -39,17 +40,8 @@ class BurgerBuilder extends Component {
 	}
 
 	purchasingContinue = () => {
-		const queryParams = []
-		const { ingredients } = this.state
-		for (let i in ingredients)
-			queryParams.push(
-				encodeURIComponent(i) + "=" + encodeURIComponent(ingredients[i])
-			)
-		queryParams.push("price=" + this.state.totalPrice)
-		this.props.history.push({
-			pathname: "/checkout",
-			search: "?" + queryParams.join("&")
-		})
+		this.props.onPurchaseInit()
+		this.props.history.push("/checkout")
 	}
 
 	render() {
@@ -91,12 +83,13 @@ class BurgerBuilder extends Component {
 }
 
 const mapStateToProps = state => {
-	const { ingredients, totalPrice, error } = state
+	const { ingredients, totalPrice, error } = state.burger
 	return { ingredients, price: totalPrice, error }
 }
 
 export default connect(mapStateToProps, {
 	onIngredientAdd: addIngredient,
 	onIngredientRemove: removeIngredient,
-	onInit: initBurger
+	onInit: initBurger,
+	onPurchaseInit: purchaseInit
 })(withErrorHandler(BurgerBuilder, axios))
