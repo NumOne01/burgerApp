@@ -7,7 +7,10 @@ import { Provider } from "react-redux"
 import * as serviceWorker from "./serviceWorker"
 import burgerReducer from "./store/reducers/burger"
 
-const store = createStore(burgerReducer)
+const store = createStore(
+	burgerReducer,
+	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+)
 
 ReactDOM.render(
 	<Provider store={store}>
