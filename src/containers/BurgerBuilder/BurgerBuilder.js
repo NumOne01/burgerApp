@@ -4,7 +4,7 @@ import BurgerControls from "../../components/Burger/BurgerControls/BurgerControl
 import Modal from "../../components/UI/Modal/Modal"
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary"
 import { connect } from "react-redux"
-import * as actions from "../../store/actions/actions"
+import { addIngredient, removeIngredient } from "../../store/actions/index"
 
 class BurgerBuilder extends Component {
 	state = {
@@ -78,19 +78,7 @@ const mapStateToProps = state => {
 	return { ingredients, price: totalPrice }
 }
 
-const mapDispatchToProps = dispatch => {
-	return {
-		onIngredientAdd: type =>
-			dispatch({
-				type: actions.ADD_INGREDIENT,
-				payload: type
-			}),
-		onIngredientRemove: type =>
-			dispatch({
-				type: actions.REMOVE_INGREDIENT,
-				payload: type
-			})
-	}
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(BurgerBuilder)
+export default connect(mapStateToProps, {
+	onIngredientAdd: addIngredient,
+	onIngredientRemove: removeIngredient
+})(BurgerBuilder)
