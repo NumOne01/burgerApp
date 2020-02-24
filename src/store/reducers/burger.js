@@ -2,7 +2,7 @@ import * as actions from "../actions/actionTypes"
 
 const initialState = {
 	ingredients: null,
-	totalPrice: 0,
+	totalPrice: 4.0,
 	error: null
 }
 
@@ -34,7 +34,8 @@ const burger = (state = initialState, action) => {
 		case actions.SET_INGREDIENTS:
 			return {
 				...state,
-				ingredients: action.payload
+				ingredients: action.payload,
+				totalPrice: 4.0
 			}
 		case actions.FETCHING_FAILED:
 			return {
