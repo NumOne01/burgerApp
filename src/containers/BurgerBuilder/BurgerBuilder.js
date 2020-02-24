@@ -4,12 +4,23 @@ import BurgerControls from "../../components/Burger/BurgerControls/BurgerControl
 import Modal from "../../components/UI/Modal/Modal"
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary"
 import { connect } from "react-redux"
-import { addIngredient, removeIngredient } from "../../store/actions/index"
+import {
+	addIngredient,
+	removeIngredient,
+	initBurger
+} from "../../store/actions/index"
+import Spinner from "../../components/UI/Spinner/Spinner"
+import withErrorHandler from "../hoc/withErrorHandler/withErrorHandler"
+import axios from "../../axios-order"
 
 class BurgerBuilder extends Component {
 	state = {
 		purchasable: false,
 		purchasing: false
+	}
+
+	componentDidMount() {
+		this.props.onInit()
 	}
 
 	updatePurchasableState = ingredients => {
@@ -44,7 +55,7 @@ class BurgerBuilder extends Component {
 	render() {
 		const disabledInfo = { ...this.props.ingredients }
 		for (let key in disabledInfo) disabledInfo[key] = disabledInfo[key] <= 0
-		return (
+		return this.props.ingredients ? (
 			<Fragment>
 				<Modal
 					show={this.state.purchasing}
@@ -69,16 +80,23 @@ class BurgerBuilder extends Component {
 					)}
 				/>
 			</Fragment>
+		) : this.props.error ? (
+			<h1>
+				Something went wrong: <p>{this.props.error.message}</p>
+			</h1>
+		) : (
+			<Spinner />
 		)
 	}
 }
 
 const mapStateToProps = state => {
-	const { ingredients, totalPrice } = state
-	return { ingredients, price: totalPrice }
+	const { ingredients, totalPrice, error } = state
+	return { ingredients, price: totalPrice, error }
 }
 
 export default connect(mapStateToProps, {
 	onIngredientAdd: addIngredient,
-	onIngredientRemove: removeIngredient
-})(BurgerBuilder)
+	onIngredientRemove: removeIngredient,
+	onInit: initBurger
+})(withErrorHandler(BurgerBuilder, axios))

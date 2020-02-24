@@ -1,13 +1,9 @@
 import * as actions from "../actions/actionTypes"
 
 const initialState = {
-	ingredients: {
-		salad: 0,
-		bacon: 0,
-		meat: 0,
-		cheese: 0
-	},
-	totalPrice: 0
+	ingredients: null,
+	totalPrice: 0,
+	error: null
 }
 
 const prices = {
@@ -34,6 +30,16 @@ const burger = (state = initialState, action) => {
 					...state.ingredients,
 					[action.payload]: state.ingredients[action.payload] - 1
 				}
+			}
+		case actions.SET_INGREDIENTS:
+			return {
+				...state,
+				ingredients: action.payload
+			}
+		case actions.FETCHING_FAILED:
+			return {
+				...state,
+				error: action.payload
 			}
 		default:
 			return state
