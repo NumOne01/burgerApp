@@ -112,14 +112,15 @@ class ContactData extends Component {
 
 	onSubmit = () => {
 		const { orderForm } = this.state
-		const { ingredients, price, token } = this.props
+		const { ingredients, price, token, userId } = this.props
 		this.setState({ loading: true })
 		const orderData = {}
 		for (let key in orderForm) orderData[key] = orderForm[key].value
 		const order = {
 			ingredients,
 			price: price.toFixed(2),
-			orderData
+			orderData,
+			userId
 		}
 		this.props.onOrderBurger(order, token)
 	}
@@ -159,12 +160,13 @@ class ContactData extends Component {
 const mapStateToProps = state => {
 	const { ingredients, totalPrice } = state.burger
 	const { loading } = state.order
-	const { token } = state.auth
+	const { token, userId } = state.auth
 	return {
 		ingredients,
 		price: totalPrice,
 		loading,
-		token
+		token,
+		userId
 	}
 }
 

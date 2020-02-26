@@ -9,7 +9,7 @@ import { fetchOrders } from "../../store/actions"
 export class Orders extends Component {
 	constructor(props) {
 		super(props)
-		this.props.fetchOrders(this.props.token)
+		this.props.fetchOrders(this.props.token, this.props.userId)
 	}
 
 	render() {
@@ -32,8 +32,8 @@ export class Orders extends Component {
 
 const mapStateToProps = store => {
 	const { loading, orders, error } = store.order
-	const { token } = store.auth
-	return { loading, orders, error, token }
+	const { token, userId } = store.auth
+	return { loading, orders, error, token, userId }
 }
 
 export default connect(mapStateToProps, { fetchOrders })(
