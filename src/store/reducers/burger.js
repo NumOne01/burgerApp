@@ -3,7 +3,8 @@ import * as actions from "../actions/actionTypes"
 const initialState = {
 	ingredients: null,
 	totalPrice: 4.0,
-	error: null
+	error: null,
+	isBuilding: false
 }
 
 const prices = {
@@ -21,7 +22,8 @@ const burger = (state = initialState, action) => {
 				ingredients: {
 					...state.ingredients,
 					[action.payload]: state.ingredients[action.payload] + 1
-				}
+				},
+				isBuilding: true
 			}
 		case actions.REMOVE_INGREDIENT:
 			return {
@@ -29,13 +31,15 @@ const burger = (state = initialState, action) => {
 				ingredients: {
 					...state.ingredients,
 					[action.payload]: state.ingredients[action.payload] - 1
-				}
+				},
+				isBuilding: true
 			}
 		case actions.SET_INGREDIENTS:
 			return {
 				...state,
 				ingredients: action.payload,
-				totalPrice: 4.0
+				totalPrice: 4.0,
+				isBuilding: false
 			}
 		case actions.FETCHING_FAILED:
 			return {

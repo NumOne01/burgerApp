@@ -4,7 +4,9 @@ import Spinner from "../../components/UI/Spinner/Spinner"
 import classes from "./Auth.module.css"
 import Input from "../../components/UI/Input/Input"
 import { auth } from "../../store/actions"
+import { Redirect } from "react-router-dom"
 import { connect } from "react-redux"
+import { setRedirectPath } from "../../store/actions"
 
 class Auth extends Component {
 	state = {
@@ -39,6 +41,11 @@ class Auth extends Component {
 		},
 		formIsValid: false,
 		isSignUp: true
+	}
+
+	componentDidMount() {
+		if (!this.props.isBuilding && this.props.redirectPath !== "/")
+			this.props.setRedirectPath("/")
 	}
 
 	checkValidity(value, rules) {
@@ -119,6 +126,9 @@ class Auth extends Component {
 		)
 		return (
 			<div className={classes.Auth}>
+				{this.props.isAuthenticated && (
+					<Redirect to={this.props.redirectPath} />
+				)}
 				<form onSubmit={this.onSubmitHandler}>
 					{form}
 					{errorMessage}
@@ -130,8 +140,18 @@ class Auth extends Component {
 }
 
 const mapStateToProps = state => {
-	const { loading, error } = state.auth
-	return { loading, error }
+	const { loading, error, token, redirectPath } = state.auth
+	const { isBuilding } = state.burger
+	return {
+		loading,
+		error,
+		isAuthenticated: token !== null,
+		isBuilding,
+		redirectPath
+	}
 }
 
-export default connect(mapStateToProps, { authenticate: auth })(Auth)
+export default connect(mapStateToProps, {
+	authenticate: auth,
+	setRedirectPath
+})(Auth)

@@ -1,4 +1,10 @@
-import { AUTH_FAIL, AUTH_START, AUTH_SUCCESS, AUTH_LOGOUT } from "./actionTypes"
+import {
+	AUTH_FAIL,
+	AUTH_START,
+	AUTH_SUCCESS,
+	AUTH_LOGOUT,
+	SET_AUTH_REDIRECT_PATH
+} from "./actionTypes"
 import axios from "axios"
 
 export const logout = () => {
@@ -41,5 +47,12 @@ export const auth = (email, password, isSingnUp) => {
 					payload: error.response.data.error
 				})
 			)
+	}
+}
+
+export const setRedirectPath = path => {
+	return {
+		type: SET_AUTH_REDIRECT_PATH,
+		payload: path
 	}
 }

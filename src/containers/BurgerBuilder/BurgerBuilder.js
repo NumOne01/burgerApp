@@ -8,7 +8,8 @@ import {
 	addIngredient,
 	removeIngredient,
 	initBurger,
-	purchaseInit
+	purchaseInit,
+	setRedirectPath
 } from "../../store/actions"
 import Spinner from "../../components/UI/Spinner/Spinner"
 import withErrorHandler from "../hoc/withErrorHandler/withErrorHandler"
@@ -32,7 +33,11 @@ class BurgerBuilder extends Component {
 	}
 
 	purchasingHandler = () => {
-		this.setState({ purchasing: true })
+		if (this.props.isAuthenticated) this.setState({ purchasing: true })
+		else {
+			this.props.setRedirectPath("/checkout")
+			this.props.history.push("/auth")
+		}
 	}
 
 	purchasingCanceled = () => {
@@ -70,6 +75,7 @@ class BurgerBuilder extends Component {
 					purchasable={this.updatePurchasableState(
 						this.props.ingredients
 					)}
+					isAuthenticated={this.props.isAuthenticated}
 				/>
 			</Fragment>
 		) : this.props.error ? (
@@ -84,12 +90,19 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = state => {
 	const { ingredients, totalPrice, error } = state.burger
-	return { ingredients, price: totalPrice, error }
+	const { token } = state.auth
+	return {
+		ingredients,
+		price: totalPrice,
+		error,
+		isAuthenticated: token !== null
+	}
 }
 
 export default connect(mapStateToProps, {
 	onIngredientAdd: addIngredient,
 	onIngredientRemove: removeIngredient,
 	onInit: initBurger,
-	onPurchaseInit: purchaseInit
+	onPurchaseInit: purchaseInit,
+	setRedirectPath
 })(withErrorHandler(BurgerBuilder, axios))
