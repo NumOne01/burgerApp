@@ -1,23 +1,24 @@
-import React, { Component } from "react"
-import classes from "./ContactData.module.css"
-import Button from "../../../components/UI/Button/Button"
-import axios from "../../../axios-order"
-import Spinner from "../../../components/UI/Spinner/Spinner"
-import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler"
-import Input from "../../../components/UI/Input/Input"
-import { connect } from "react-redux"
-import { purchaseBurger } from "../../../store/actions/index"
+import React, { Component } from 'react'
+import classes from './ContactData.module.css'
+import Button from '../../../components/UI/Button/Button'
+import axios from '../../../axios-order'
+import Spinner from '../../../components/UI/Spinner/Spinner'
+import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
+import Input from '../../../components/UI/Input/Input'
+import { connect } from 'react-redux'
+import { purchaseBurger } from '../../../store/actions/index'
+import { checkValidity } from '../../../shared/utility'
 
 class ContactData extends Component {
 	state = {
 		orderForm: {
 			name: {
-				elementType: "input",
+				elementType: 'input',
 				elementConfig: {
-					type: "text",
-					placeholder: "name"
+					type: 'text',
+					placeholder: 'name'
 				},
-				value: "",
+				value: '',
 				valid: false,
 				validation: {
 					required: true
@@ -25,12 +26,12 @@ class ContactData extends Component {
 				touched: false
 			},
 			email: {
-				elementType: "input",
+				elementType: 'input',
 				elementConfig: {
-					type: "email",
-					placeholder: "email"
+					type: 'email',
+					placeholder: 'email'
 				},
-				value: "",
+				value: '',
 				valid: false,
 				validation: {
 					required: true
@@ -38,12 +39,12 @@ class ContactData extends Component {
 				touched: false
 			},
 			street: {
-				elementType: "input",
+				elementType: 'input',
 				elementConfig: {
-					type: "text",
-					placeholder: "Street"
+					type: 'text',
+					placeholder: 'Street'
 				},
-				value: "",
+				value: '',
 				valid: false,
 				validation: {
 					required: true
@@ -51,12 +52,12 @@ class ContactData extends Component {
 				touched: false
 			},
 			postal: {
-				elementType: "input",
+				elementType: 'input',
 				elementConfig: {
-					type: "text",
-					placeholder: "Zip Code"
+					type: 'text',
+					placeholder: 'Zip Code'
 				},
-				value: "",
+				value: '',
 				valid: false,
 				validation: {
 					required: true,
@@ -66,14 +67,14 @@ class ContactData extends Component {
 				touched: false
 			},
 			deliveryMethod: {
-				elementType: "select",
+				elementType: 'select',
 				elementConfig: {
 					options: [
-						{ value: "fast", name: "Fast" },
-						{ value: "cheap", name: "Cheap" }
+						{ value: 'fast', name: 'Fast' },
+						{ value: 'cheap', name: 'Cheap' }
 					]
 				},
-				value: "fastest",
+				value: 'fastest',
 				validation: {},
 				valid: true
 			}
@@ -82,23 +83,11 @@ class ContactData extends Component {
 		formIsValid: false
 	}
 
-	checkValidity(value, rules) {
-		let isValid = true
-
-		if (rules.required) isValid = value.trim() !== "" && isValid
-		if (rules.minLength)
-			isValid = value.trim().length >= rules.minLength && isValid
-		if (rules.maxLength)
-			isValid = value.trim().length <= rules.maxLength && isValid
-
-		return isValid
-	}
-
 	hadndleInputChange = (event, idetifire) => {
 		const updatedForm = { ...this.state.orderForm }
 		const updatedElement = { ...updatedForm[idetifire] }
 		updatedElement.value = event.target.value
-		updatedElement.valid = this.checkValidity(
+		updatedElement.valid = checkValidity(
 			updatedElement.value,
 			updatedElement.validation
 		)

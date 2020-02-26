@@ -1,23 +1,24 @@
-import React, { Component, Fragment } from "react"
-import Button from "../../components/UI/Button/Button"
-import Spinner from "../../components/UI/Spinner/Spinner"
-import classes from "./Auth.module.css"
-import Input from "../../components/UI/Input/Input"
-import { auth } from "../../store/actions"
-import { Redirect } from "react-router-dom"
-import { connect } from "react-redux"
-import { setRedirectPath } from "../../store/actions"
+import React, { Component, Fragment } from 'react'
+import Button from '../../components/UI/Button/Button'
+import Spinner from '../../components/UI/Spinner/Spinner'
+import classes from './Auth.module.css'
+import Input from '../../components/UI/Input/Input'
+import { auth } from '../../store/actions'
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { setRedirectPath } from '../../store/actions'
+import { checkValidity } from '../../shared/utility'
 
 class Auth extends Component {
 	state = {
 		controls: {
 			email: {
-				elementType: "input",
+				elementType: 'input',
 				elementConfig: {
-					type: "email",
-					placeholder: "Email"
+					type: 'email',
+					placeholder: 'Email'
 				},
-				value: "",
+				value: '',
 				valid: false,
 				validation: {
 					required: true
@@ -25,12 +26,12 @@ class Auth extends Component {
 				touched: false
 			},
 			password: {
-				elementType: "input",
+				elementType: 'input',
 				elementConfig: {
-					type: "password",
-					placeholder: "Password"
+					type: 'password',
+					placeholder: 'Password'
 				},
-				value: "",
+				value: '',
 				valid: false,
 				validation: {
 					required: true,
@@ -44,20 +45,8 @@ class Auth extends Component {
 	}
 
 	componentDidMount() {
-		if (!this.props.isBuilding && this.props.redirectPath !== "/")
-			this.props.setRedirectPath("/")
-	}
-
-	checkValidity(value, rules) {
-		let isValid = true
-
-		if (rules.required) isValid = value.trim() !== "" && isValid
-		if (rules.minLength)
-			isValid = value.trim().length >= rules.minLength && isValid
-		if (rules.maxLength)
-			isValid = value.trim().length <= rules.maxLength && isValid
-
-		return isValid
+		if (!this.props.isBuilding && this.props.redirectPath !== '/')
+			this.props.setRedirectPath('/')
 	}
 
 	switchAuthMod = event => {
@@ -69,7 +58,7 @@ class Auth extends Component {
 		const updatedForm = { ...this.state.controls }
 		const updatedElement = { ...updatedForm[identifire] }
 		updatedElement.value = event.target.value
-		updatedElement.valid = this.checkValidity(
+		updatedElement.valid = checkValidity(
 			updatedElement.value,
 			updatedElement.validation
 		)
@@ -120,7 +109,7 @@ class Auth extends Component {
 					Submit
 				</Button>
 				<Button clicked={this.switchAuthMod} type="Danger">
-					Change to {this.state.isSignUp ? "Sign in" : "SignUp"}
+					Change to {this.state.isSignUp ? 'Sign in' : 'SignUp'}
 				</Button>
 			</Fragment>
 		)
