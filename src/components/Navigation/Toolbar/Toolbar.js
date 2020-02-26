@@ -18,7 +18,7 @@ const Toolbar = props => {
 				</Link>
 			</div>
 			<nav>
-				<NavigationItems />
+				<NavigationItems isAuthenticated={props.isAuthenticated} />
 			</nav>
 		</header>
 	)

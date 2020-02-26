@@ -112,7 +112,7 @@ class ContactData extends Component {
 
 	onSubmit = () => {
 		const { orderForm } = this.state
-		const { ingredients, price } = this.props
+		const { ingredients, price, token } = this.props
 		this.setState({ loading: true })
 		const orderData = {}
 		for (let key in orderForm) orderData[key] = orderForm[key].value
@@ -121,7 +121,7 @@ class ContactData extends Component {
 			price: price.toFixed(2),
 			orderData
 		}
-		this.props.onOrderBurger(order)
+		this.props.onOrderBurger(order, token)
 	}
 
 	render() {
@@ -159,10 +159,12 @@ class ContactData extends Component {
 const mapStateToProps = state => {
 	const { ingredients, totalPrice } = state.burger
 	const { loading } = state.order
+	const { token } = state.auth
 	return {
 		ingredients,
 		price: totalPrice,
-		loading
+		loading,
+		token
 	}
 }
 

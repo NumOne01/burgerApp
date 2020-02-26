@@ -9,6 +9,19 @@ import { connect } from "react-redux"
 class Auth extends Component {
 	state = {
 		controls: {
+			email: {
+				elementType: "input",
+				elementConfig: {
+					type: "email",
+					placeholder: "Email"
+				},
+				value: "",
+				valid: false,
+				validation: {
+					required: true
+				},
+				touched: false
+			},
 			password: {
 				elementType: "input",
 				elementConfig: {
@@ -20,19 +33,6 @@ class Auth extends Component {
 				validation: {
 					required: true,
 					minLength: 6
-				},
-				touched: false
-			},
-			email: {
-				elementType: "input",
-				elementConfig: {
-					type: "email",
-					placeholder: "Email"
-				},
-				value: "",
-				valid: false,
-				validation: {
-					required: true
 				},
 				touched: false
 			}

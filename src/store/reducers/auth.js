@@ -7,8 +7,8 @@ import {
 
 const initialState = {
 	loading: false,
-	token: "",
-	userId: "",
+	token: null,
+	userId: null,
 	error: null
 }
 

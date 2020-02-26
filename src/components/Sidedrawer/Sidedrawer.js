@@ -22,7 +22,10 @@ const Sidedrawer = props => {
 					<Logo />
 				</div>
 				<nav>
-					<NavigationItems clicked={props.close} />
+					<NavigationItems
+						isAuthenticated={props.isAuthenticated}
+						clicked={props.close}
+					/>
 				</nav>
 			</div>
 		</Fragment>
