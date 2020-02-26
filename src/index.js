@@ -1,16 +1,19 @@
-import React from "react"
-import ReactDOM from "react-dom"
-import "./index.css"
-import App from "./App"
-import { createStore, compose, applyMiddleware, combineReducers } from "redux"
-import { Provider } from "react-redux"
-import * as serviceWorker from "./serviceWorker"
-import burgerReducer from "./store/reducers/burger"
-import ordersReducer from "./store/reducers/order"
-import authReducer from "./store/reducers/auth"
-import thunk from "redux-thunk"
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import App from './App'
+import { createStore, compose, applyMiddleware, combineReducers } from 'redux'
+import { Provider } from 'react-redux'
+import * as serviceWorker from './serviceWorker'
+import burgerReducer from './store/reducers/burger'
+import ordersReducer from './store/reducers/order'
+import authReducer from './store/reducers/auth'
+import thunk from 'redux-thunk'
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+const composeEnhancers =
+	(process.env.NODE_ENV === 'development' &&
+		window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+	compose
 
 const rootReducer = combineReducers({
 	burger: burgerReducer,
@@ -24,7 +27,7 @@ ReactDOM.render(
 	<Provider store={store}>
 		<App />
 	</Provider>,
-	document.getElementById("root")
+	document.getElementById('root')
 )
 
 // If you want your app to work offline and load faster, you can change
