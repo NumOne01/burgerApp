@@ -8,6 +8,9 @@ import {
 import axios from "axios"
 
 export const logout = () => {
+	localStorage.removeItem("token")
+	localStorage.removeItem("expirationTime")
+	localStorage.removeItem("userId")
 	return {
 		type: AUTH_LOGOUT
 	}
@@ -32,6 +35,14 @@ export const auth = (email, password, isSingnUp) => {
 		axios
 			.post(url, authData)
 			.then(response => {
+				localStorage.setItem("token", response.data.idToken)
+				localStorage.setItem("userId", response.data.localId)
+				localStorage.setItem(
+					"expirationTime",
+					new Date(
+						new Date().getTime() + response.data.expiresIn * 1000
+					)
+				)
 				dispatch({
 					type: AUTH_SUCCESS,
 					payload: {
@@ -54,5 +65,26 @@ export const setRedirectPath = path => {
 	return {
 		type: SET_AUTH_REDIRECT_PATH,
 		payload: path
+	}
+}
+
+export const authCheckState = () => {
+	return dispatch => {
+		const token = localStorage.getItem("token")
+		if (!token) dispatch(logout())
+		else {
+			const expirationTime = new Date(
+				localStorage.getItem("expirationTime")
+			)
+			const userId = localStorage.getItem("userId")
+			if (new Date().getTime() < expirationTime.getTime())
+				dispatch({
+					type: AUTH_SUCCESS,
+					payload: {
+						token,
+						userId
+					}
+				})
+		}
 	}
 }
