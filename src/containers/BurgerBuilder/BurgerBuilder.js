@@ -1,19 +1,19 @@
-import React, { Component, Fragment } from "react"
-import Burger from "../../components/Burger/Burger"
-import BurgerControls from "../../components/Burger/BurgerControls/BurgerControls"
-import Modal from "../../components/UI/Modal/Modal"
-import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary"
-import { connect } from "react-redux"
+import React, { Component, Fragment } from 'react'
+import Burger from '../../components/Burger/Burger'
+import BurgerControls from '../../components/Burger/BurgerControls/BurgerControls'
+import Modal from '../../components/UI/Modal/Modal'
+import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
+import { connect } from 'react-redux'
 import {
 	addIngredient,
 	removeIngredient,
 	initBurger,
 	purchaseInit,
 	setRedirectPath
-} from "../../store/actions"
-import Spinner from "../../components/UI/Spinner/Spinner"
-import withErrorHandler from "../hoc/withErrorHandler/withErrorHandler"
-import axios from "../../axios-order"
+} from '../../store/actions'
+import Spinner from '../../components/UI/Spinner/Spinner'
+import withErrorHandler from '../hoc/withErrorHandler/withErrorHandler'
+import axios from '../../axios-order'
 
 export class BurgerBuilder extends Component {
 	state = {
@@ -35,8 +35,8 @@ export class BurgerBuilder extends Component {
 	purchasingHandler = () => {
 		if (this.props.isAuthenticated) this.setState({ purchasing: true })
 		else {
-			this.props.setRedirectPath("/checkout")
-			this.props.history.push("/auth")
+			this.props.setRedirectPath('/checkout')
+			this.props.history.push('/auth')
 		}
 	}
 
@@ -46,7 +46,7 @@ export class BurgerBuilder extends Component {
 
 	purchasingContinue = () => {
 		this.props.onPurchaseInit()
-		this.props.history.push("/checkout")
+		this.props.history.push('/checkout')
 	}
 
 	render() {
@@ -79,11 +79,13 @@ export class BurgerBuilder extends Component {
 				/>
 			</Fragment>
 		) : this.props.error ? (
-			<h1>
+			<h1 style={{ margin: '32px 32px' }}>
 				Something went wrong: <p>{this.props.error.message}</p>
 			</h1>
 		) : (
-			<Spinner />
+			<div style={{ marginTop: "200px" }}>
+				<Spinner />
+			</div>
 		)
 	}
 }

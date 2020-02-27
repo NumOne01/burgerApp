@@ -105,11 +105,15 @@ class Auth extends Component {
 			<Spinner />
 		) : (
 			<Fragment>
-				<Button type="Success" disabled={!this.state.formIsValid}>
-					Submit
-				</Button>
+				<div style={{ display: "block" }}>
+					<Button type="Success" disabled={!this.state.formIsValid}>
+						{!this.state.isSignUp ? 'Sign in' : 'SignUp'}
+					</Button>
+				</div>
 				<Button clicked={this.switchAuthMod} type="Danger">
-					Change to {this.state.isSignUp ? 'Sign in' : 'SignUp'}
+					{this.state.isSignUp
+						? 'Already have an account ? Login'
+						: 'Dont have an account ? SignUp'}
 				</Button>
 			</Fragment>
 		)
