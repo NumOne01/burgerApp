@@ -5,31 +5,53 @@
 	text-align: center;
 	height: 250px;
 	font-weight: bold;
-    font-size: 1.2rem;
-    overflow: auto;
+	font-size: 1.2rem;
+	overflow: auto;
 }
 
 @media (min-width: 250px) {
-    .Burger {
-        width: 70%;
-        height: 280px;
-    }
+	.Burger {
+		width: 70%;
+		height: 280px;
+	}
 }
 
 @media (min-width: 500px) {
-    .Burger {
-        width: 50%;
-    }
+	.Burger {
+		width: 50%;
+	}
 }
 
 @media (min-width: 768px) {
-    .Burger {
-        width: 30%;
-    }
+	.Burger {
+		width: 30%;
+	}
 }
 
 @media (min-width: 1200px) {
-    .Burger {
-        width: 20%;
-    }
+	.Burger {
+		width: 20%;
+	}
+}
+
+.fade-enter {
+    opacity: 0;
+	transform: translateX(-30%);
+}
+
+.fade-enter-active {
+    opacity: 1;
+	transform: translateX(0);
+	transition: all 0.3s ease-out;
+}
+
+.fade-exit {
+    opacity: 1;
+	transform: translateX(0);
+}
+
+.fade-exit-active {
+    transform: translateX(-30%);
+    opacity: 0;
+	transition: all 0.2s ease-out;
 }

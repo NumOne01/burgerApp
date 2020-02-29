@@ -14,7 +14,6 @@ import {
 import Spinner from '../../components/UI/Spinner/Spinner'
 import withErrorHandler from '../hoc/withErrorHandler/withErrorHandler'
 import axios from '../../axios-order'
-import Transition from 'react-transition-group/Transition'
 
 export class BurgerBuilder extends Component {
 	state = {
