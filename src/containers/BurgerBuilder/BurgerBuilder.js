@@ -55,26 +55,18 @@ export class BurgerBuilder extends Component {
 		for (let key in disabledInfo) disabledInfo[key] = disabledInfo[key] <= 0
 		return this.props.ingredients ? (
 			<Fragment>
-				<Transition
-					in={this.state.purchasing}
-					mountOnEnter
-					unmountOnExit
-					timeout={1000}
+				<Modal
+					show={this.state.purchasing}
+					closeModal={this.purchasingCanceled}
 				>
-					{state => (
-						<Modal
-							show={this.state.purchasing}
-							closeModal={this.purchasingCanceled}
-						>
-							<OrderSummary
-								ingredients={this.props.ingredients}
-								onClose={this.purchasingCanceled}
-								onContinue={this.purchasingContinue}
-								price={this.props.price}
-							/>
-						</Modal>
-					)}
-				</Transition>
+					<OrderSummary
+						ingredients={this.props.ingredients}
+						onClose={this.purchasingCanceled}
+						onContinue={this.purchasingContinue}
+						price={this.props.price}
+					/>
+				</Modal>
+
 				<Burger ingredients={this.props.ingredients} />
 				<BurgerControls
 					price={this.props.price}
