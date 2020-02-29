@@ -14,6 +14,7 @@ import {
 import Spinner from '../../components/UI/Spinner/Spinner'
 import withErrorHandler from '../hoc/withErrorHandler/withErrorHandler'
 import axios from '../../axios-order'
+import Transition from 'react-transition-group/Transition'
 
 export class BurgerBuilder extends Component {
 	state = {
@@ -54,17 +55,26 @@ export class BurgerBuilder extends Component {
 		for (let key in disabledInfo) disabledInfo[key] = disabledInfo[key] <= 0
 		return this.props.ingredients ? (
 			<Fragment>
-				<Modal
-					show={this.state.purchasing}
-					closeModal={this.purchasingCanceled}
+				<Transition
+					in={this.state.purchasing}
+					mountOnEnter
+					unmountOnExit
+					timeout={1000}
 				>
-					<OrderSummary
-						ingredients={this.props.ingredients}
-						onClose={this.purchasingCanceled}
-						onContinue={this.purchasingContinue}
-						price={this.props.price}
-					/>
-				</Modal>
+					{state => (
+						<Modal
+							show={this.state.purchasing}
+							closeModal={this.purchasingCanceled}
+						>
+							<OrderSummary
+								ingredients={this.props.ingredients}
+								onClose={this.purchasingCanceled}
+								onContinue={this.purchasingContinue}
+								price={this.props.price}
+							/>
+						</Modal>
+					)}
+				</Transition>
 				<Burger ingredients={this.props.ingredients} />
 				<BurgerControls
 					price={this.props.price}
@@ -83,7 +93,7 @@ export class BurgerBuilder extends Component {
 				Something went wrong: <p>{this.props.error.message}</p>
 			</h1>
 		) : (
-			<div style={{ marginTop: "200px" }}>
+			<div style={{ marginTop: '200px' }}>
 				<Spinner />
 			</div>
 		)
